@@ -3,7 +3,7 @@ export interface UserProfile {
   email: string;
   avatar: string;
   isLoggedIn: boolean;
-  authProvider: 'google' | 'email';
+  authProvider: 'google' | 'email' | 'none';
 }
 
 export type OccasionType = 

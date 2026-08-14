@@ -1,0 +1,202 @@
+.login-container {
+  max-width: 28rem;
+  margin: 3rem auto;
+  background-color: var(--bg-surface, #ffffff);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05));
+  border: 1px solid var(--border-medium, #e5e7eb);
+  text-align: center;
+}
+
+body.dark-theme .login-container {
+  background-color: var(--bg-surface, #1f2937);
+  border-color: var(--border-medium, #374151);
+}
+
+.login-icon-box {
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--accent-mint-light, #d1fae5);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.875rem;
+  margin: 0 auto 1rem auto;
+}
+
+body.dark-theme .login-icon-box {
+  background-color: var(--accent-mint-light, #064e3b);
+}
+
+.login-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin-bottom: 0.25rem;
+}
+
+body.dark-theme .login-title {
+  color: var(--text-primary, #ffffff);
+}
+
+.login-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted, #6b7280);
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+
+body.dark-theme .login-subtitle {
+  color: var(--text-muted, #9ca3af);
+}
+
+.login-google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background-color: var(--bg-surface, #ffffff);
+  border: 1px solid var(--border-medium, #d1d5db);
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary, #374151);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+body.dark-theme .login-google-btn {
+  background-color: transparent;
+  border-color: var(--border-medium, #4b5563);
+  color: var(--text-primary, #e5e7eb);
+}
+
+.login-google-btn:hover {
+  background-color: var(--bg-secondary, #f9fafb);
+}
+
+body.dark-theme .login-google-btn:hover {
+  background-color: var(--bg-secondary, #374151);
+}
+
+.google-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.login-divider {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.divider-line {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+}
+
+.divider-line::after {
+  content: '';
+  width: 100%;
+  border-top: 1px solid var(--border-medium, #e5e7eb);
+}
+
+body.dark-theme .divider-line::after {
+  border-color: var(--border-medium, #374151);
+}
+
+.divider-text-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.divider-text {
+  background-color: var(--bg-surface, #ffffff);
+  padding: 0 0.5rem;
+  color: var(--text-muted, #9ca3af);
+}
+
+body.dark-theme .divider-text {
+  background-color: var(--bg-surface, #1f2937);
+}
+
+.login-form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary, #4b5563);
+  margin-bottom: 0.25rem;
+}
+
+body.dark-theme .form-label {
+  color: var(--text-secondary, #d1d5db);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-medium, #e5e7eb);
+  background-color: var(--bg-primary, #f9fafb);
+  font-size: 0.75rem;
+  color: var(--text-primary, #111827);
+  outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+body.dark-theme .form-input {
+  border-color: var(--border-medium, #374151);
+  background-color: var(--bg-primary, #111827);
+  color: var(--text-primary, #ffffff);
+}
+
+.form-input:focus {
+  border-color: var(--accent-mint, #4ade80);
+  box-shadow: 0 0 0 2px var(--accent-mint-glow, rgba(74, 222, 128, 0.2));
+}
+
+.login-submit-btn {
+  width: 100%;
+  background-color: var(--accent-mint, #4ade80);
+  color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+}
+
+body.dark-theme .login-submit-btn {
+  color: #0d1610;
+}
+
+.login-submit-btn:hover {
+  background-color: var(--accent-mint-hover, #22c55e);
+  transform: translateY(-1px);
+}

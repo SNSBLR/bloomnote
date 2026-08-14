@@ -8,6 +8,8 @@ import { EditorComponent } from './components/editor/editor.component';
 import { CollectionsComponent } from './components/collections/collections.component';
 import { AiAssistantComponent } from './components/ai-assistant/ai-assistant.component';
 
+import { Login } from './components/login/login';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -18,7 +20,8 @@ import { AiAssistantComponent } from './components/ai-assistant/ai-assistant.com
     WizardComponent,
     EditorComponent,
     CollectionsComponent,
-    AiAssistantComponent
+    AiAssistantComponent,
+    Login
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

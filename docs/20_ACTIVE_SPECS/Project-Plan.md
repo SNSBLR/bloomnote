@@ -2,7 +2,7 @@
 
 ## **1. Project Overview & Objectives**
 
-**CardCraft** is a digital greeting card platform featuring a 3-step creation wizard (Occasion → Format → Theme), an interactive React DOM card studio editor with inline Tailwind CSS, an integrated Grammarly-style AI writing assistant, draft persistence with toast notifications, PDF/PNG export capabilities, embedded interactive project documentation viewers, and a signature pastel green user interface with light/dark mode support.
+**CardCraft** is a digital greeting card platform featuring a 3-step creation wizard (Occasion → Format → Theme), an interactive Angular card studio editor with inline Tailwind CSS, an integrated Grammarly-style AI writing assistant, draft persistence with toast notifications, PDF/PNG export capabilities, embedded interactive project documentation viewers, and a signature pastel green user interface with light/dark mode support.
 
 ### **Key Success Metrics**
 
@@ -16,13 +16,13 @@
 
 | Area | Technology Selected | Rationale |
 | :---- | :---- | :---- |
-| **Frontend Framework** | Next.js 14+ (App Router) & React 18 | Server-side rendering for landing pages, client-side rendering for Card Studio workspace. |
+| **Frontend Framework** | Angular 18+ | Client-side rendering for Card Studio workspace and landing pages. |
 | **Styling & Design System** | Tailwind CSS & Framer Motion | Rapid custom styling with 10-step pastel green tokens (`pastel-50` to `pastel-900`) + `sage`, `mint`, `blush`, `lavender`, `cream` & smooth transitions. |
 | **Typography Palette** | 6 Google Fonts API | Playfair (Serif), Dancing (Cursive), Caveat (Hand), Pacifico (Fun), Montserrat (Clean), Poppins (Modern). |
-| **Card Studio Engine** | React DOM State + Inline Tailwind CSS | Synchronized live React state model matching the HTML prototype architecture for card layout, font, color, stickers, and photos. |
-| **Backend & Database** | Supabase (PostgreSQL + RLS + Auth + Storage) | Native Google OAuth 2.0 & Email Auth, PostgreSQL for draft cards JSON state, Storage for photo assets. |
-| **AI LLM Integration** | OpenAI API (`gpt-4o-mini`) | Fast serverless API routes for AI assistant actions (*Fix Grammar*, *Shorten*, *Elongate*, *Make Heartfelt*, *Make Funny*, *Make Formal*). |
-| **Deployment & Hosting** | Vercel & Supabase Cloud | Continuous Integration / Continuous Deployment (CI/CD) with instant preview environments. |
+| **Card Studio Engine** | Angular Signals + Inline Tailwind CSS | Synchronized live Angular state model matching the HTML prototype architecture for card layout, font, color, stickers, and photos. |
+| **Backend & Database** | Firebase (Firestore + Security Rules + Auth + Storage) | Native Google OAuth 2.0 & Email Auth, Firestore for draft cards JSON state, Storage for photo assets. |
+| **AI LLM Integration** | OpenAI API (`gpt-4o-mini`) | Firebase Cloud Functions for AI assistant actions (*Fix Grammar*, *Shorten*, *Elongate*, *Make Heartfelt*, *Make Funny*, *Make Formal*). |
+| **Deployment & Hosting** | Firebase Hosting | Continuous Integration / Continuous Deployment (CI/CD) with Firebase. |
 
 ## **3. Master Project Timeline & Roadmap**
 
@@ -39,10 +39,10 @@ Week 8    : Phase 5 [Collections Dashboard, QA, E2E Testing & Launch]
 **Goal**: Set up monorepo repository, global 10-step pastel green design system (`pastel-50` to `pastel-900` + `sage`, `mint`, `blush`, `lavender`), light/dark mode theme context, Google OAuth authentication, collapsible sidebar navigation, toast notification system, and embedded project documentation viewers.
 
 * **Tasks**:  
-  * [ ] **Task 1.1**: Initialize Next.js 14+ project repository with Tailwind CSS, TypeScript, and ESLint/Prettier.  
+  * [ ] **Task 1.1**: Initialize Angular project repository with Tailwind CSS, TypeScript, and ESLint/Prettier.  
   * [ ] **Task 1.2**: Define Tailwind design tokens for 10-step pastel green hierarchy (`pastel-50`: `#f2f8f4` to `pastel-900`: `#233f2c`), accents (`sage`, `mint`, `cream`, `blush`, `lavender`), and dark mode (`#1B2E23`, `#2D4736`).  
-  * [ ] **Task 1.3**: Implement ThemeProvider context for instant light/dark mode switching with localStorage persistence and non-blocking toast notification system.  
-  * [ ] **Task 1.4**: Configure Supabase Auth supporting Google OAuth 2.0 and Email/Password flows.  
+  * [ ] **Task 1.3**: Implement Theme Service for instant light/dark mode switching with localStorage persistence and non-blocking toast notification system.  
+  * [ ] **Task 1.4**: Configure Firebase Auth supporting Google OAuth 2.0 and Email/Password flows, and build the dedicated Login/Sign-In Page view matching the prototype as the entry point for unauthenticated users.  
   * [ ] **Task 1.5**: Build responsive top header containing user profile avatar, name, email, Google OAuth badge, and account dropdown menu.  
   * [ ] **Task 1.6**: Build collapsible left sidebar navigation ("Create / New", "My Cards Collections") with arrow toggle button for expanded/icon-only states and theme switcher at the bottom.  
   * [ ] **Task 1.7**: Implement in-app Project Docs section providing interactive viewers and PDF exports for PRD, Master Project Plan, and Current Plan.  
@@ -56,16 +56,16 @@ Week 8    : Phase 5 [Collections Dashboard, QA, E2E Testing & Launch]
   * [ ] **Task 2.1**: **Step 1 Page** — Build Occasion Selection grid with 6 categories: Gratitude (🙏), Apology (🕊️), Invitation (💌), Birthday (🎂), Get Well Soon (🌸), and Special Occasions (🎉).  
   * [ ] **Task 2.2**: **Step 2 Page** — Build Format Selection view displaying layout formats synchronized with prototype: Folding Vertical, Portrait Single, Landscape Panoramic, and Square Social.  
   * [ ] **Task 2.3**: **Step 3 Page** — Build Theme Selection view displaying 6 curated visual preview cards synchronized with prototype: Soft Botanical, Pastel Floral, Warm Sunset, Celestial Gold, Mint Geometric, and Cozy Watercolor.  
-  * [ ] **Task 2.4**: Implement wizard step state management (Zustand/React State) with step-back and step-forward validation rules.  
+  * [ ] **Task 2.4**: Implement wizard step state management (Angular Services/Signals) with step-back and step-forward validation rules.  
   * [ ] **Task 2.5**: Set up template schema definitions mapping (Occasion + Format + Theme) to Card Studio initialization states.  
 * **Deliverable**: Seamless 3-step wizard flow transitioning the user smoothly from category selection to Card Studio initialization.
 
 ### **Phase 3: Interactive Card Editor Studio (Weeks 5–6)**
 
-**Goal**: Implement the React DOM state interactive card studio editor with inline Tailwind CSS, 6 Google Fonts, custom stickers with affordance tooltips, and photo attachment tools.
+**Goal**: Implement the Angular interactive card studio editor with inline Tailwind CSS, 6 Google Fonts, custom stickers with affordance tooltips, and photo attachment tools.
 
 * **Tasks**:  
-  * [ ] **Task 3.1**: Build Card Studio interactive canvas workspace using React DOM state and inline Tailwind CSS matching prototype layout.  
+  * [ ] **Task 3.1**: Build Card Studio interactive canvas workspace using Angular Signals and inline Tailwind CSS matching prototype layout.  
   * [ ] **Task 3.2**: Build Typography & Color toolbar: inline title/message text editing, 6 Google Fonts (Playfair, Dancing, Caveat, Pacifico, Montserrat, Poppins), font size styles, and dual text/background color pickers.  
   * [ ] **Task 3.3**: Create Sticker Drawer featuring 12 categorized pastel stickers (🌿, ✨, 🌸, 🕊️, 💌, 💖, 🎈, 🎉, 🍵, 🎀, ⭐, 🦋) with hover tooltips (`title="Click to add/remove sticker"`) and active selection badges.  
   * [ ] **Task 3.4**: Implement Photo Upload tool supporting sample photo attachments and custom user image imports.  
@@ -74,14 +74,14 @@ Week 8    : Phase 5 [Collections Dashboard, QA, E2E Testing & Launch]
 
 ### **Phase 4: Grammarly-Style AI Assistant & Persistence/Export (Week 7)**
 
-**Goal**: Embed the sidekick AI writing assistant alongside the studio editor, enable JSON draft saving to Supabase PostgreSQL with toast confirmation, and configure PDF/PNG export triggers.
+**Goal**: Embed the sidekick AI writing assistant alongside the studio editor, enable JSON draft saving to Firebase Firestore with toast confirmation, and configure PDF/PNG export triggers.
 
 * **Tasks**:  
-  * [ ] **Task 4.1**: Create serverless API endpoint (`/api/ai/transform`) connecting to OpenAI GPT-4o-mini for card text transformations.  
+  * [ ] **Task 4.1**: Create Firebase Cloud Function endpoint (`/api/ai/transform`) connecting to OpenAI GPT-4o-mini for card text transformations.  
   * [ ] **Task 4.2**: Build floating/slide-out AI Assistant drawer docked adjacent to card text fields.  
   * [ ] **Task 4.3**: Integrate PRD-aligned action prompt triggers: *"Fix Grammar"*, *"Shorten"*, *"Elongate"*, *"Make Heartfelt"*, *"Make Funny"*, *"Make Formal"*.  
   * [ ] **Task 4.4**: Build "Accept & Apply" / "Revert" text replacement controls directly syncing AI outputs to card text state with toast feedback.  
-  * [ ] **Task 4.5**: Implement "Save Draft" functionality converting card state into JSON and storing it in Supabase PostgreSQL with toast alert (*"Draft auto-saved to My Collections!"*).  
+  * [ ] **Task 4.5**: Implement "Save Draft" functionality converting card state into JSON and storing it in Firebase Firestore with toast alert (*"Draft auto-saved to My Collections!"*).  
   * [ ] **Task 4.6**: Implement Export & Download engine supporting PNG/JPEG downloads and window print PDF generation matching prototype behavior.  
 * **Deliverable**: Integrated AI writing assistant, draft persistence with toast alerts, and PDF/PNG card export tools.
 
@@ -95,15 +95,15 @@ Week 8    : Phase 5 [Collections Dashboard, QA, E2E Testing & Launch]
   * [ ] **Task 5.3**: Conduct accessibility audit (WCAG 2.1 AA) for keyboard navigation, screen reader ARIA labels, and 4.5:1 color contrast.  
   * [ ] **Task 5.4**: Run automated E2E testing suite (Playwright/Cypress) covering the complete user journey: *Google Auth → 3-Step Wizard → Card Studio → AI Rewriting → Save Draft → PDF/PNG Download*.  
   * [ ] **Task 5.5**: Perform cross-browser and mobile responsive checks across Desktop (1280px+), Tablet (768px), and Mobile (375px) viewports.  
-  * [ ] **Task 5.6**: Final production deployment on Vercel with custom domain configuration.  
+  * [ ] **Task 5.6**: Final production deployment on Firebase Hosting with custom domain configuration.  
 * **Deliverable**: Complete, battle-tested, publicly accessible CardCraft production release.
 
 ## **5. Team Roles & Resource Allocation**
 
 | Role | Responsibilities | Allocation |
 | :---- | :---- | :---- |
-| **Lead Frontend Engineer** | Next.js architecture, React DOM Card Studio implementation, design tokens, theme provider, toast system. | Full-Time (Weeks 1–8) |
-| **Full-Stack / Backend Engineer** | Supabase Auth, PostgreSQL schema, OpenAI API edge routes, PDF/PNG export service. | Full-Time (Weeks 1–8) |
+| **Lead Frontend Engineer** | Angular architecture, Angular Card Studio implementation, design tokens, theme service, toast system. | Full-Time (Weeks 1–8) |
+| **Full-Stack / Backend Engineer** | Firebase Auth, Firestore schema, Firebase Cloud Functions for OpenAI API, PDF/PNG export service. | Full-Time (Weeks 1–8) |
 | **UI/UX Designer** | Pastel green design system, light/dark theme tokens, sticker assets & affordances, wizard UI/UX. | Part-Time (Weeks 1–4) |
 | **QA / E2E Automation Engineer** | Playwright test suites, cross-browser verification, WCAG AA accessibility profiling. | Part-Time (Weeks 5–8) |
 
@@ -122,5 +122,5 @@ Week 8    : Phase 5 [Collections Dashboard, QA, E2E Testing & Launch]
 * [ ] Light and Dark modes seamlessly toggleable with 10-step pastel green visual identity maintained.  
 * [ ] Toast notification system active confirming draft saves, sticker additions, and AI transformations.  
 * [ ] Automated Playwright E2E tests passing for authentication, 3-step wizard, card studio editor, AI assistant, and downloading.  
-* [ ] Zero critical or high-severity security vulnerabilities with Supabase RLS policies active.  
-* [ ] Code reviewed, merged to main, and deployed live to production on Vercel.
+* [ ] Zero critical or high-severity security vulnerabilities with Firebase Security Rules active.  
+* [ ] Code reviewed, merged to main, and deployed live to production on Firebase Hosting.

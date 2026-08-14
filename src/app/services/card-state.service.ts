@@ -22,11 +22,11 @@ import {
 export class CardStateService {
   // --- Auth & Profile State ---
   readonly userProfile = signal<UserProfile>({
-    name: 'Lily Evans',
-    email: 'lily.evans@bloomnote.app',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
-    isLoggedIn: true,
-    authProvider: 'google'
+    name: 'Guest User',
+    email: '',
+    avatar: '',
+    isLoggedIn: false,
+    authProvider: 'none'
   });
 
   // --- Theme State (Dark / Light) ---
@@ -37,7 +37,7 @@ export class CardStateService {
 
   // --- Current Active View ---
   // 'wizard' | 'editor' | 'collections' | 'login'
-  readonly currentView = signal<'wizard' | 'editor' | 'collections'>('wizard');
+  readonly currentView = signal<'wizard' | 'editor' | 'collections' | 'login'>('login');
 
   // --- Wizard Step (1: Occasion, 2: Format, 3: Theme) ---
   readonly wizardStep = signal<number>(1);
@@ -138,6 +138,7 @@ export class CardStateService {
       isLoggedIn: false,
       authProvider: 'email'
     });
+    this.currentView.set('login');
   }
 
   // --- Navigation & Wizard Flow ---

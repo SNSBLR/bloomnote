@@ -1,13 +1,16 @@
 <div class="app-layout">
   <!-- Top Navigation Profile Header -->
-  <app-header></app-header>
+  <app-header *ngIf="stateService.userProfile().isLoggedIn"></app-header>
 
   <div class="app-body">
     <!-- Left Collapsible Sidebar Navigation Menu -->
-    <app-sidebar></app-sidebar>
+    <app-sidebar *ngIf="stateService.userProfile().isLoggedIn"></app-sidebar>
 
     <!-- Main Dynamic Content Workspace View -->
     <main class="main-content-view">
+      <!-- VIEW 0: Login / Sign-In Page -->
+      <app-login *ngIf="stateService.currentView() === 'login'"></app-login>
+
       <!-- VIEW 1: 3-Step Guided Wizard (Occasion -> Format -> Theme) -->
       <app-wizard *ngIf="stateService.currentView() === 'wizard'"></app-wizard>
 

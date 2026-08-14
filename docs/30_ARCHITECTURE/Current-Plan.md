@@ -37,6 +37,12 @@ All UI elements strictly adhere to the signature pastel green visual design syst
   - [ ] **Folded**: 2-panel side-by-side card template representation.
 - [ ] Apply background canvas styling derived from the user's selected aesthetic theme (such as Minimalist, Botanical, Modern Retro, Festive, or Watercolor).
 
+#### **Step 1.3: User Authentication & Login Page**
+
+- [ ] Build a dedicated Login/Sign-In view matching the prototype to serve as the primary entry point for unauthenticated users.
+- [ ] Implement Google OAuth 2.0 and Email/Password login flows utilizing Firebase Auth.
+- [ ] Establish routing rules to block access to the main application features until the user successfully authenticates.
+
 ---
 
 ### **Phase 2: Typography Engine & Inline Text Editing**
@@ -87,7 +93,7 @@ All UI elements strictly adhere to the signature pastel green visual design syst
 - [ ] Process uploaded images through an internal validation pipeline:
   - [ ] Verify file size (maximum 10MB per image).
   - [ ] Check image dimension bounds to prevent browser memory exhaustion.
-- [ ] Upload valid images to cloud object storage (Supabase or Firebase Storage) under a user-specific folder structure, receiving a secure CDN URL.
+- [ ] Upload valid images to cloud object storage (Firebase Storage) under a user-specific folder structure, receiving a secure CDN URL.
 - [ ] Instantiate the uploaded photo onto the canvas with scaling handles, corner rounding controls, aspect-ratio locking, and z-index ordering tools.
 
 ---
@@ -97,7 +103,7 @@ All UI elements strictly adhere to the signature pastel green visual design syst
 #### **Step 4.1: Selection Listener & AI Drawer Activation**
 
 - [ ] Implement a selection event listener on the canvas engine that monitors user interactions.
-- [ ] When a text element is highlighted, extract its active text content, font metadata, and unique element ID, populating an internal Zustand state store.
+- [ ] When a text element is highlighted, extract its active text content, font metadata, and unique element ID, populating an internal Angular Signals state store.
 - [ ] Trigger the slide-out AI Assistant Sidekick drawer on the right side of the screen with a smooth spring animation.
 - [ ] Display the currently selected text inside an input preview box marked "Selected Canvas Text".
 
@@ -112,7 +118,7 @@ All UI elements strictly adhere to the signature pastel green visual design syst
   - [ ] **Make Formal**: Rephrases message into polite, elegant, and professional language.
   - [ ] **Make Poetic**: Converts standard prose into lyrical, rhythmic, or rhyming verse.
   - [ ] **Custom Instruction Input**: Allows users to type custom commands (e.g., "Write like a 19th-century novelist").
-- [ ] Send transformation requests via a serverless POST request to the backend edge function connected to OpenAI (gpt-4o-mini).
+- [ ] Send transformation requests via a serverless POST request to the Firebase Cloud Function connected to OpenAI (gpt-4o-mini).
 - [ ] Enforce system prompt directives requiring the AI model to return **only** the transformed copy without conversational filler, greetings, or explanations.
 - [ ] Process the AI response as a server-sent text stream, updating the UI chunk-by-chunk in real time to show character-by-character typing animations inside the suggestion preview box.
 
@@ -131,7 +137,7 @@ All UI elements strictly adhere to the signature pastel green visual design syst
 
 - [ ] Implement a state converter that transforms the complete HTML5 canvas representation — including text strings, font styles, colors, positions, sticker layer order, and photo URLs — into a clean JSON schema object.
 - [ ] Set up a debounced auto-save listener that triggers 3 seconds after the user stops making canvas modifications.
-- [ ] Transmit the JSON canvas state alongside thumbnail metadata to the database (Supabase/PostgreSQL), linking it to the user's account ID under "Saved Drafts".
+- [ ] Transmit the JSON canvas state alongside thumbnail metadata to the database (Firebase Firestore), linking it to the user's account ID under "Saved Drafts".
 - [ ] Display an unobtrusive status indicator in the top header showing "Saving...", "All changes saved", or "Offline mode".
 
 #### **Step 5.2: Multi-Level History Stack (Undo / Redo)**
