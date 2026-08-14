@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardCraft AI – Pastel Card Studio</title>
+  <meta name="description" content="Create personalized pastel greeting cards with AI-powered writing assistance. Design, customize, and download beautiful cards for every occasion." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Dancing+Script:wght@400;600;700&family=Montserrat:wght@300;400;600;700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- html2canvas for JPEG export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========================================================
+       APP SHELL
+  ========================================================= -->
+  <div id="app" class="app-shell">
+
+    <!-- =====================================================
+         LEFT SIDEBAR
+    ====================================================== -->
+    <aside id="sidebar" class="sidebar sidebar--open" aria-label="Main navigation">
+
+      <!-- Logo + Toggle -->
+      <div class="sidebar__header">
+        <button class="sidebar__logo" id="btn-go-home" aria-label="Go to home">
+          <span class="sidebar__logo-icon">🍃</span>
+          <span class="sidebar__logo-text">
+            <strong>CardCraft</strong>
+            <small>Pastel Cards &amp; AI</small>
+          </span>
+        </button>
+        <button class="sidebar__toggle" id="btn-sidebar-toggle" aria-label="Toggle sidebar" title="Collapse menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Primary Nav -->
+      <nav class="sidebar__nav" aria-label="Primary">
+        <button class="sidebar__nav-item sidebar__nav-item--active" id="nav-create" data-view="create" aria-current="page">
+          <span class="sidebar__nav-icon" aria-hidden="true">✨</span>
+          <span class="sidebar__nav-label">Create / New</span>
+        </button>
+
+        <button class="sidebar__nav-item" id="nav-collections" data-view="collections">
+          <span class="sidebar__nav-icon" aria-hidden="true">🖼️</span>
+          <span class="sidebar__nav-label">
+            My Collections
+            <span class="sidebar__badge" id="collection-badge">0</span>
+          </span>
+        </button>
+      </nav>
+
+      <!-- Project Docs Nav -->
+      <div class="sidebar__section">
+        <span class="sidebar__section-label">Project Docs</span>
+        <nav aria-label="Project documents">
+          <button class="sidebar__nav-item" id="nav-prd" data-view="prd">
+            <span class="sidebar__nav-icon" aria-hidden="true">📄</span>
+            <span class="sidebar__nav-label">PRD Document</span>
+          </button>
+          <button class="sidebar__nav-item" id="nav-current-plan" data-view="current-plan">
+            <span class="sidebar__nav-icon" aria-hidden="true">🚀</span>
+            <span class="sidebar__nav-label">Current Plan</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Theme Toggle -->
+      <div class="sidebar__footer">
+        <button class="theme-toggle" id="btn-theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-toggle__icon" id="theme-icon">☀️</span>
+          <span class="theme-toggle__label" id="theme-label">Light Theme</span>
+          <span class="theme-toggle__knob" aria-hidden="true">
+            <span class="theme-toggle__pill"></span>
+          </span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN CONTENT AREA
+    ====================================================== -->
+    <div class="main-wrapper">
+
+      <!-- TOP HEADER -->
+      <header class="topbar" role="banner">
+        <div class="topbar__left">
+          <span class="topbar__tag">Pastel Theme</span>
+          <h2 class="topbar__title" id="topbar-title">Card Builder</h2>
+        </div>
+
+        <div class="topbar__right">
+          <!-- Save status indicator -->
+          <span class="save-status" id="save-status" aria-live="polite"></span>
+
+          <!-- Undo / Redo -->
+          <div class="undo-redo" id="undo-redo-controls" style="display:none;">
+            <button class="icon-btn" id="btn-undo" title="Undo (Ctrl+Z)" disabled aria-label="Undo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 10h13a5 5 0 010 10H8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 10l4-4m-4 4l4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn" id="btn-redo" title="Redo (Ctrl+Y)" disabled aria-label="Redo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10H8a5 5 0 000 10h8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 10l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+          <!-- User Profile -->
+          <div class="profile" id="profile-section">
+            <!-- Logged out state -->
+            <button class="btn btn--primary btn--sm" id="btn-show-login">Log In</button>
+
+            <!-- Logged in state (hidden by default, shown after auth) -->
+            <div class="profile__menu-wrapper" id="profile-menu-wrapper" hidden>
+              <button class="profile__trigger" id="btn-profile-menu" aria-haspopup="true" aria-expanded="false" aria-label="Open profile menu">
+                <img class="profile__avatar" id="profile-avatar" src="" alt="" width="36" height="36" />
+                <div class="profile__info">
+                  <span class="profile__name" id="profile-name"></span>
+                  <span class="profile__sub">CardCraft Account</span>
+                </div>
+                <svg class="profile__caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div class="profile__dropdown" id="profile-dropdown" role="menu" hidden>
+                <div class="profile__dropdown-header">
+                  <strong id="dropdown-name"></strong>
+                  <small id="dropdown-email"></small>
+                  <span class="badge badge--green">
+                    <span class="badge__dot" aria-hidden="true"></span> Signed in
+                  </span>
+                </div>
+                <button class="profile__dropdown-item" role="menuitem" data-view="collections">🖼️ My Saved Cards</button>
+                <button class="profile__dropdown-item profile__dropdown-item--danger" id="btn-sign-out" role="menuitem">🚪 Sign Out</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ===================================================
+           VIEWS CONTAINER
+      ==================================================== -->
+      <main class="view-container" id="view-container" role="main">
+
+        <!-- ─────────────────────────────────────────────────
+             VIEW: LOGIN
+        ──────────────────────────────────────────────────── -->
+        <div class="view" id="view-login" hidden>
+          <div class="auth-card">
+            <div class="auth-card__logo" aria-hidden="true">🍃</div>
+            <h1 class="auth-card__title">Welcome to CardCraft</h1>
+            <p class="auth-card__sub">Create personalized pastel cards with AI writing assistance.</p>
+
+            <!-- Google OAuth Mock -->
+            <button class="btn btn--google" id="btn-google-login">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              Sign in with Google
+            </button>
+
+            <div class="auth-divider"><span>or email</span></div>
+
+            <form class="auth-form" id="login-form" novalidate>
+              <div class="form-group">
+                <label for="login-email" class="form-label">Email Address</label>
+                <input type="email" id="login-email" name="email" class="form-input" autocomplete="email" placeholder="you@example.com" required />
+                <span class="form-error" id="email-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="login-password" class="form-label">Password</label>
+                <input type="password" id="login-password" name="password" class="form-input" autocomplete="current-password" placeholder="••••••••" required minlength="6" />
+                <span class="form-error" id="password-error" aria-live="polite"></span>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full">Log In</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────────
+             VIEW: CREATE — WIZARD
+        ──────────────────────────────────────────────────── -->
+        <div class="view" id="view-create">
+
+          <!-- Wizard Step Bar -->
+          <div class="wizard-bar" id="wizard-bar" role="navigation" aria-label="Wizard steps">
+            <button class="wizard-step wizard-step--active" data-step="1" id="wizard-tab-1" aria-current="step">
+              <span class="wizard-step__number">1</span>
+              <span class="wizard-step__label">Card Type</span>
+            </button>
+            <span class="wizard-bar__arrow" aria-hidden="true">→</span>
+            <button class="wizard-step" data-step="2" id="wizard-tab-2">
+              <span class="wizard-step__number">2</span>
+              <span class="wizard-step__label">Format</span>
+            </button>
+            <span class="wizard-bar__arrow" aria-hidden="true">→</span>
+            <button class="wizard-step" data-step="3" id="wizard-tab-3">
+              <span class="wizard-step__number">3</span>
+              <span class="wizard-step__label">Theme</span>
+            </button>
+            <span class="wizard-bar__arrow" aria-hidden="true">→</span>
+            <button class="wizard-step" data-step="4" id="wizard-tab-4">
+              <span class="wizard-step__number">4</span>
+              <span class="wizard-step__label">Studio</span>
+            </button>
+            <span class="wizard-bar__category" id="wizard-category-display">Category: <strong>Gratitude</strong></span>
+          </div>
+
+          <!-- Step 1: Card Type -->
+          <section class="wizard-step-panel" id="step-1" aria-label="Step 1: Select card type">
+            <div class="section-header">
+              <h2 class="section-header__title">What type of card would you like to make?</h2>
+              <p class="section-header__sub">Select an occasion to get started with curated layouts and messages.</p>
+            </div>
+            <div class="card-type-grid" id="card-type-grid" role="list">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Step 2: Format -->
+          <section class="wizard-step-panel" id="step-2" hidden aria-label="Step 2: Choose format">
+            <div class="section-header">
+              <h2 class="section-header__title">Choose Your Card Format</h2>
+              <p class="section-header__sub">Select how your card is structured and oriented.</p>
+            </div>
+            <div class="format-grid" id="format-grid" role="list">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Step 3: Theme -->
+          <section class="wizard-step-panel" id="step-3" hidden aria-label="Step 3: Pick a theme">
+            <div class="section-header">
+              <h2 class="section-header__title">Select a Pastel Theme</h2>
+              <p class="section-header__sub">Choose the mood and background aesthetic for your card.</p>
+            </div>
+            <div class="theme-grid" id="theme-grid" role="list">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- Step 4: Studio Editor -->
+          <section class="wizard-step-panel studio-layout" id="step-4" hidden aria-label="Step 4: Card Studio">
+
+            <!-- LEFT TOOLBAR -->
+            <div class="studio-toolbar" id="studio-toolbar">
+              <div class="studio-toolbar__header">
+                <h3 class="studio-toolbar__title">🎨 Card Studio Tools</h3>
+                <button class="link-btn" id="btn-change-category">Change Category</button>
+              </div>
+
+              <!-- Heading Input -->
+              <div class="form-group">
+                <label for="card-heading" class="form-label">Card Heading</label>
+                <input type="text" id="card-heading" class="form-input" placeholder="Your card title…" maxlength="80" />
+              </div>
+
+              <!-- Message Textarea + AI trigger -->
+              <div class="form-group">
+                <div class="form-label-row">
+                  <label for="card-message" class="form-label">Card Message</label>
+                  <button class="ai-trigger-btn" id="btn-ai-open" aria-label="Open AI Writing Assistant">
+                    <span aria-hidden="true">✨</span> AI Assistant
+                  </button>
+                </div>
+                <textarea id="card-message" class="form-textarea" rows="4" placeholder="Write your heartfelt message…" maxlength="500"></textarea>
+                <span class="char-count" id="msg-char-count">0 / 500</span>
+              </div>
+
+              <!-- Font Selector -->
+              <div class="form-group">
+                <span class="form-label">Typography Style</span>
+                <div class="font-picker" id="font-picker" role="group" aria-label="Font options">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Font Size -->
+              <div class="form-group">
+                <label class="form-label" for="font-size-slider">Font Size: <span id="font-size-value">28</span>px</label>
+                <input type="range" id="font-size-slider" class="range-slider" min="14" max="56" value="28" />
+              </div>
+
+              <!-- Color Pickers -->
+              <div class="color-row">
+                <div class="form-group">
+                  <label for="text-color" class="form-label">Text Color</label>
+                  <input type="color" id="text-color" class="color-picker" value="#325d3f" />
+                </div>
+                <div class="form-group">
+                  <label for="bg-color" class="form-label">Card Background</label>
+                  <input type="color" id="bg-color" class="color-picker" value="#e1efe5" />
+                </div>
+              </div>
+
+              <!-- Text Alignment -->
+              <div class="form-group">
+                <span class="form-label">Text Alignment</span>
+                <div class="align-row" role="group" aria-label="Text alignment">
+                  <button class="align-btn align-btn--active" data-align="left" title="Align left" aria-pressed="true">
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 4h12v1.5H2V4zm0 3.5h8v1.5H2V7.5zm0 3.5h12v1.5H2V11z"/></svg>
+                  </button>
+                  <button class="align-btn" data-align="center" title="Align center" aria-pressed="false">
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 4h12v1.5H2V4zm2 3.5h8v1.5H4V7.5zm-2 3.5h12v1.5H2V11z"/></svg>
+                  </button>
+                  <button class="align-btn" data-align="right" title="Align right" aria-pressed="false">
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 4h12v1.5H2V4zm4 3.5h8v1.5H6V7.5zm-4 3.5h12v1.5H2V11z"/></svg>
+                  </button>
+                  <button class="align-btn" data-align="justify" title="Justify" aria-pressed="false">
+                    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 4h12v1.5H2V4zm0 3.5h12v1.5H2V7.5zm0 3.5h12v1.5H2V11z"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stickers -->
+              <div class="form-group">
+                <span class="form-label">Add Stickers</span>
+                <div class="sticker-grid" id="sticker-grid" role="group" aria-label="Sticker options">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- Photo Upload -->
+              <div class="form-group">
+                <span class="form-label">Add Photo</span>
+                <label class="upload-zone" for="photo-upload" id="upload-zone">
+                  <span class="upload-zone__icon" aria-hidden="true">📷</span>
+                  <span class="upload-zone__text" id="upload-zone-text">Click to attach a photo</span>
+                  <input type="file" id="photo-upload" accept="image/png,image/jpeg,image/webp" class="sr-only" aria-label="Upload photo" />
+                </label>
+                <button class="link-btn" id="btn-remove-photo" hidden>Remove photo</button>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="studio-actions">
+                <button class="btn btn--secondary btn--full" id="btn-save-draft">
+                  <span aria-hidden="true">💾</span> Save as Draft
+                </button>
+                <button class="btn btn--primary btn--full" id="btn-download">
+                  <span aria-hidden="true">📥</span> Download Card
+                </button>
+              </div>
+            </div>
+
+            <!-- RIGHT CANVAS AREA -->
+            <div class="studio-canvas-area" id="studio-canvas-area">
+
+              <!-- AI Writing Sidekick Drawer -->
+              <div class="ai-drawer" id="ai-drawer" hidden aria-label="AI Writing Assistant">
+                <div class="ai-drawer__header">
+                  <div class="ai-drawer__title-row">
+                    <span aria-hidden="true">🤖</span>
+                    <div>
+                      <strong class="ai-drawer__title">AI Writing Sidekick</strong>
+                      <p class="ai-drawer__sub">Refine grammar, alter tone, shorten, or elongate your message.</p>
+                    </div>
+                  </div>
+                  <button class="ai-drawer__close" id="btn-ai-close" aria-label="Close AI Assistant">✕</button>
+                </div>
+
+                <!-- Selected text preview -->
+                <div class="ai-drawer__preview-box">
+                  <span class="ai-drawer__preview-label">Selected Text</span>
+                  <p class="ai-drawer__preview-text" id="ai-selected-text"></p>
+                </div>
+
+                <!-- AI Action Chips -->
+                <div class="ai-chips" role="group" aria-label="AI transformation actions" id="ai-chips">
+                  <!-- Populated by JS -->
+                </div>
+
+                <!-- Custom instruction -->
+                <div class="ai-custom-row">
+                  <input type="text" class="form-input form-input--sm" id="ai-custom-input" placeholder="Custom instruction… e.g. 'Write like a poet'" maxlength="200" />
+                  <button class="btn btn--primary btn--sm" id="btn-ai-custom">Apply</button>
+                </div>
+
+                <!-- Loading state -->
+                <p class="ai-loading" id="ai-loading" hidden aria-live="polite">✨ AI is refining your card text…</p>
+
+                <!-- Suggestion Preview + Actions -->
+                <div class="ai-suggestion" id="ai-suggestion" hidden>
+                  <div class="ai-suggestion__header">
+                    <span class="ai-suggestion__label">AI Suggestion</span>
+                    <div class="ai-suggestion__actions">
+                      <button class="btn btn--primary btn--sm" id="btn-ai-apply">Apply to Card</button>
+                      <button class="btn btn--ghost btn--sm" id="btn-ai-discard">Discard</button>
+                    </div>
+                  </div>
+                  <p class="ai-suggestion__text" id="ai-suggestion-text"></p>
+                </div>
+              </div>
+
+              <!-- Download Export Options Modal -->
+              <div class="export-modal" id="export-modal" hidden role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+                <div class="export-modal__inner">
+                  <h3 class="export-modal__title" id="export-modal-title">Export Card</h3>
+                  <p class="export-modal__sub">Choose your preferred format and quality.</p>
+                  <div class="export-formats" role="group" aria-label="Export formats">
+                    <label class="export-format-option">
+                      <input type="radio" name="export-format" value="jpeg" checked /> JPEG
+                    </label>
+                    <label class="export-format-option">
+                      <input type="radio" name="export-format" value="png" /> PNG
+                    </label>
+                  </div>
+                  <div class="export-actions">
+                    <button class="btn btn--primary" id="btn-export-confirm">Download</button>
+                    <button class="btn btn--ghost" id="btn-export-cancel">Cancel</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- LIVE CARD CANVAS -->
+              <div class="canvas-container" id="canvas-container">
+                <div class="card-canvas" id="card-canvas">
+                  <!-- Decorative blobs -->
+                  <div class="card-canvas__blob card-canvas__blob--tr" aria-hidden="true"></div>
+                  <div class="card-canvas__blob card-canvas__blob--bl" aria-hidden="true"></div>
+
+                  <!-- Sticker row -->
+                  <div class="card-canvas__stickers" id="canvas-stickers" aria-label="Selected stickers"></div>
+
+                  <!-- Category badge -->
+                  <span class="card-canvas__category-badge" id="canvas-category">Gratitude</span>
+
+                  <!-- Heading -->
+                  <h2 class="card-canvas__heading" id="canvas-heading"></h2>
+
+                  <!-- Photo slot -->
+                  <div class="card-canvas__photo-slot" id="canvas-photo-slot" hidden>
+                    <img id="canvas-photo" src="" alt="Card photo" />
+                  </div>
+
+                  <!-- Message -->
+                  <p class="card-canvas__message" id="canvas-message"></p>
+
+                  <!-- Footer -->
+                  <footer class="card-canvas__footer">
+                    <span>Created with CardCraft AI</span>
+                    <span>With Warmth &amp; Respect</span>
+                  </footer>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+        </div><!-- /#view-create -->
+
+        <!-- ─────────────────────────────────────────────────
+             VIEW: COLLECTIONS
+        ──────────────────────────────────────────────────── -->
+        <div class="view" id="view-collections" hidden>
+          <div class="collections-header">
+            <div>
+              <h2 class="collections-header__title">Your Saved Cards &amp; Drafts</h2>
+              <p class="collections-header__sub">Revisit, edit, or download your personalized card creations.</p>
+            </div>
+            <button class="btn btn--primary" id="btn-new-card">+ Create New Card</button>
+          </div>
+          <div class="collections-grid" id="collections-grid" role="list">
+            <!-- Cards populated by JS -->
+          </div>
+          <p class="collections-empty" id="collections-empty" hidden>No saved cards yet. Create your first card!</p>
+        </div>
+
+        <!-- ─────────────────────────────────────────────────
+             VIEW: PRD DOCUMENT
+        ──────────────────────────────────────────────────── -->
+        <div class="view" id="view-prd" hidden>
+          <div class="doc-header">
+            <div>
+              <span class="doc-header__tag">Document View</span>
+              <h2 class="doc-header__title">Product Requirements Document (PRD)</h2>
+            </div>
+            <button class="btn btn--primary" id="btn-print-prd">🖨️ Export to PDF</button>
+          </div>
+          <div class="doc-body" id="prd-body">
+            <header class="doc-body__head">
+              <p class="doc-body__eyebrow">🍃 CardCraft AI Platform • PRD v1.0</p>
+              <h1>Product Requirements Document</h1>
+              <p class="doc-body__sub-head">Pastel Web Application for AI-Assisted Personalized Greeting &amp; Occasion Cards</p>
+            </header>
+
+            <section>
+              <h2>1. Executive Summary &amp; Objectives</h2>
+              <p><strong>CardCraft AI</strong> is a modern, pastel-themed web application designed to empower users to easily craft, customize, and share high-quality digital and printable cards for various personal occasions. By integrating a 3-step structured creation wizard, real-time font and sticker customizers, and an embedded Grammarly-like AI writing assistant, users can produce heartfelt, grammatically polished, and aesthetically charming cards in minutes.</p>
+            </section>
+
+            <section>
+              <h2>2. Target Audience &amp; User Flow</h2>
+              <p><strong>Primary Audience:</strong> Individuals celebrating personal milestones, thanking mentors/friends, expressing apologies, or issuing event invitations who value thoughtful aesthetic design without needing complex design software expertise.</p>
+              <p><strong>4-Step User Journey:</strong></p>
+              <ol>
+                <li><strong>Authentication:</strong> Google OAuth 2.0 Sign-In or Email Login.</li>
+                <li><strong>Category Selection (Step 1):</strong> Choice between Gratitude, Apology, Invitation, Birthday, Get Well Soon, and Special Occasion cards.</li>
+                <li><strong>Format &amp; Theme Selection (Steps 2 &amp; 3):</strong> Selection of card layout and pastel color themes.</li>
+                <li><strong>Interactive Studio &amp; Editing:</strong> Custom text, typography, pastel color picking, sticker attachment, photo upload, AI text refinement, draft saving, and JPEG/PNG downloading.</li>
+              </ol>
+            </section>
+
+            <section>
+              <h2>3. Functional Requirements</h2>
+              <div class="doc-feature-grid">
+                <div class="doc-feature-card">
+                  <h3>FR-1: Auth &amp; User Profile</h3>
+                  <p>Google OAuth 2.0 Sign-In with profile badge display in upper-right corner. User state persistence for drafts and collections.</p>
+                </div>
+                <div class="doc-feature-card">
+                  <h3>FR-2: Card Creation Wizard</h3>
+                  <p>3-page guided wizard covering 6 card types, 4 layout formats, and 6 pastel visual themes.</p>
+                </div>
+                <div class="doc-feature-card">
+                  <h3>FR-3: Grammarly-like AI Assistant</h3>
+                  <p>Integrated NLP assistant supporting 1-click grammar fixing, shortening, elongating, and tone transformations.</p>
+                </div>
+                <div class="doc-feature-card">
+                  <h3>FR-4: Canvas Customization</h3>
+                  <p>Multi-font support, custom color picker, sticker placement, and photo attachment capability.</p>
+                </div>
+                <div class="doc-feature-card">
+                  <h3>FR-5: Collections &amp; Draft Storage</h3>
+                  <p>Dedicated "My Cards Collections" view to edit saved drafts, duplicate templates, or view history.</p>
+                </div>
+                <div class="doc-feature-card">
+                  <h3>FR-6: UI Theme &amp; Collapsible Navigation</h3>
+                  <p>Pastel green dominant color palette, left sidebar minimizable via arrow toggle, and dark/light theme switch.</p>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <h2>4. Tech Stack &amp; Non-Functional Requirements</h2>
+              <p><strong>Frontend Stack:</strong> HTML5, CSS3, JavaScript (ES6+), Google Web Fonts, html2canvas API.</p>
+              <p><strong>Backend Stack:</strong> Node.js / Express, PostgreSQL / Supabase for card metadata &amp; draft storage.</p>
+              <p><strong>AI Integration:</strong> OpenAI GPT-4o-mini / Gemini API endpoints for real-time text rewriting and grammar polishing.</p>
+              <p><strong>Performance:</strong> Sub-second UI state updates for live canvas edits and fast export rendering.</p>
+            </section>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────────
+             VIEW: CURRENT PLAN
+        ──────────────────────────────────────────────────── -->
+        <div class="view" id="view-current-plan" hidden>
+          <div class="doc-header">
+            <div>
+              <span class="doc-header__tag">Document View</span>
+              <h2 class="doc-header__title">Current Plan (Sprint 1 Active Execution)</h2>
+            </div>
+            <button class="btn btn--primary" id="btn-print-plan">🖨️ Export to PDF</button>
+          </div>
+          <div class="doc-body" id="plan-body">
+            <header class="doc-body__head">
+              <p class="doc-body__eyebrow">🚀 Sprint 1 Active Execution • Current Plan</p>
+              <h1>Current Plan (Sprint 1)</h1>
+              <p class="doc-body__sub-head">Active Objectives, Immediate Tasks, and Definition of Done</p>
+            </header>
+
+            <section>
+              <h2>1. Sprint Goal</h2>
+              <div class="plan-goal-box">
+                <strong>Goal:</strong> Finalize the pastel green UI skeleton, implement the 3-step card wizard navigation, set up Google OAuth authentication mockups, and deliver the working Grammarly-like AI Assistant preview component with canvas rendering.
+              </div>
+            </section>
+
+            <section>
+              <h2>2. Sprint Backlog &amp; Immediate Tasks</h2>
+              <div class="plan-tasks" id="plan-tasks">
+                <!-- Populated by JS -->
+              </div>
+            </section>
+
+            <section>
+              <h2>3. Phase-by-Phase Technical Implementation</h2>
+              <div class="plan-phases" id="plan-phases">
+                <!-- Populated by JS -->
+              </div>
+            </section>
+
+            <section>
+              <h2>4. Definition of Done (DoD)</h2>
+              <ul>
+                <li>All card selection steps transition smoothly without state drops.</li>
+                <li>Pastel green visual tokens meet accessibility contrast standards.</li>
+                <li>AI grammar assistant rewrites messages within the assistant drawer.</li>
+                <li>Canvas updates immediately when editing any text, color, font, or sticker.</li>
+                <li>Cards download cleanly as JPEG or PNG via html2canvas.</li>
+                <li>Draft saved cards restore correctly in My Collections view.</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+
+      </main><!-- /#view-container -->
+
+    </div><!-- /.main-wrapper -->
+
+  </div><!-- /#app -->
+
+  <!-- ========================================================
+       TOAST NOTIFICATION
+  ========================================================= -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <span aria-hidden="true">🍃</span>
+    <span id="toast-message"></span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

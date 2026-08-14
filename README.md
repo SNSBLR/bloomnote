@@ -1,59 +1,84 @@
-# Bloomnote
+﻿# CardCraft
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
+> A pastel-themed, AI-assisted digital greeting card creation platform.
 
-## Development server
+Built with **Angular 22+** (Standalone Components, Signals), **Tailwind CSS** (10-step pastel green design system), and **Supabase** (PostgreSQL + Auth + Storage).
 
-To start a local development server, run:
+---
+
+## Repository Structure
+
+```
+bloomnote/
+├── .gemini/                  # AI agent config, personas, templates
+│   ├── GEMINI.md             # Angular coding standards & best practices
+│   ├── personas/             # Specialist agent personas (Guardian, Architect, UX, Dev)
+│   └── templates/            # Reusable doc templates (PRD, Project Brief, Session Log)
+│
+├── docs/                     # Lifecycle-based project documentation
+│   ├── 10_DISCOVERY/         # Early-stage research, briefs, ideation notes
+│   ├── 20_ACTIVE_SPECS/      # Live working documents (PRD, Project Plan)
+│   ├── 30_ARCHITECTURE/      # Technical specs and current implementation plans
+│   └── 99_SUPERSEDED/        # Outdated or replaced documents (archived, not deleted)
+│
+├── prototype/                # Single-file HTML prototype (React + Tailwind SPA)
+│   └── pastel_card_maker_project_suite.html
+│
+├── src/                      # Angular application source code
+│   ├── app/
+│   │   ├── components/       # Feature UI components
+│   │   │   ├── ai-assistant/ # Grammarly-style AI sidekick drawer
+│   │   │   ├── collections/  # My Cards Collections gallery
+│   │   │   ├── editor/       # Interactive Card Studio editor
+│   │   │   ├── header/       # Top navigation header with profile menu
+│   │   │   ├── sidebar/      # Collapsible left sidebar navigation
+│   │   │   └── wizard/       # 3-step card creation wizard
+│   │   ├── constants/        # Static data (card categories, fonts, themes, stickers)
+│   │   ├── models/           # TypeScript interfaces and type definitions
+│   │   └── services/         # Singleton services (CardStateService)
+│   ├── styles.css            # Global Tailwind CSS + pastel design tokens
+│   └── index.html            # App entry HTML shell
+│
+├── public/                   # Static public assets (favicon, images)
+├── angular.json              # Angular CLI workspace configuration
+├── package.json              # npm dependencies
+└── tsconfig.json             # TypeScript compiler configuration
+```
+
+## Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 ng serve
-```
+# → http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# Run unit tests
+ng test
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+# Build for production
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Key Technology Decisions
 
-## Running unit tests
+| Layer | Technology |
+|---|---|
+| Frontend | Angular 22+ (Standalone, Signals) |
+| Styling | Tailwind CSS + 10-step Pastel Green Tokens |
+| Typography | 6 Google Fonts (Playfair, Dancing, Caveat, Pacifico, Montserrat, Poppins) |
+| State | Angular Signals + CardStateService |
+| Backend | Supabase (PostgreSQL + Auth + RLS + Storage) |
+| AI | OpenAI GPT-4o-mini (Fix Grammar, Shorten, Elongate, Make Heartfelt, Make Funny, Make Formal) |
+| Deployment | Vercel + Supabase Cloud |
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Personas
 
-```bash
-ng test
-```
+Agent personas are stored in [.gemini/personas/](.gemini/personas/) and are invoked during development sessions:
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **guardian.md** — Repository structure enforcement & file audit
+- **solution_architect.md** — System design, SLAs & technical architecture
+- **ui-ux-designer.md** — Design review, accessibility & UX recommendations
+- **web_developer.md** — Angular implementation & coding best practices

@@ -1,12 +1,28 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CardStateService } from './services/card-state.service';
+import { HeaderComponent } from './components/header/header.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { WizardComponent } from './components/wizard/wizard.component';
+import { EditorComponent } from './components/editor/editor.component';
+import { CollectionsComponent } from './components/collections/collections.component';
+import { AiAssistantComponent } from './components/ai-assistant/ai-assistant.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    SidebarComponent,
+    WizardComponent,
+    EditorComponent,
+    CollectionsComponent,
+    AiAssistantComponent
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('bloomnote');
+  readonly stateService = inject(CardStateService);
 }

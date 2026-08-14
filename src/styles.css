@@ -1,1 +1,165 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles & Pastel Green Design System for Bloomnote */
+
+:root, body.light-theme {
+  --bg-primary: #F2F8F4;
+  --bg-secondary: #E5F2E7;
+  --bg-surface: #FFFFFF;
+  --bg-sidebar: #FFFFFF;
+  --bg-elevated: #F8FCF9;
+  
+  --text-primary: #15281B;
+  --text-secondary: #526B5A;
+  --text-muted: #859E8D;
+  
+  --border-light: #E0EFE3;
+  --border-medium: #CDE3D2;
+  --border-strong: #A8D1B0;
+  
+  --accent-mint: #4EA86A;
+  --accent-mint-hover: #3D9157;
+  --accent-mint-light: #E8F5EB;
+  --accent-mint-glow: rgba(78, 168, 106, 0.25);
+  
+  --shadow-sm: 0 2px 8px rgba(21, 40, 27, 0.04);
+  --shadow-md: 0 8px 24px -4px rgba(21, 40, 27, 0.08);
+  --shadow-lg: 0 16px 36px -6px rgba(21, 40, 27, 0.12);
+  
+  --card-canvas-bg: #FFFFFF;
+  --header-bg: rgba(255, 255, 255, 0.9);
+}
+
+body.dark-theme {
+  --bg-primary: #0D1610;
+  --bg-secondary: #142218;
+  --bg-surface: #18281D;
+  --bg-sidebar: #142218;
+  --bg-elevated: #1F3325;
+  
+  --text-primary: #EEF8F1;
+  --text-secondary: #9EB8A6;
+  --text-muted: #6B8774;
+  
+  --border-light: #233829;
+  --border-medium: #2F4A37;
+  --border-strong: #41664D;
+  
+  --accent-mint: #5EC47D;
+  --accent-mint-hover: #4EA86A;
+  --accent-mint-light: #1A3122;
+  --accent-mint-glow: rgba(94, 196, 125, 0.3);
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.5);
+  
+  --card-canvas-bg: #1A2A1F;
+  --header-bg: rgba(20, 34, 24, 0.9);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-mint);
+}
+
+/* Utility Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-mint-glow); }
+  50% { box-shadow: 0 0 14px 4px var(--accent-mint-glow); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Standard Button Styles */
+.btn-pastel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+  outline: none;
+}
+
+.btn-pastel-primary {
+  background-color: var(--accent-mint);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-sm);
+}
+
+body.dark-theme .btn-pastel-primary {
+  color: #0E1712;
+}
+
+.btn-pastel-primary:hover {
+  background-color: var(--accent-mint-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-mint-glow);
+}
+
+.btn-pastel-secondary {
+  background-color: var(--accent-mint-light);
+  color: var(--accent-mint);
+  border-color: var(--border-medium);
+}
+
+.btn-pastel-secondary:hover {
+  background-color: var(--border-light);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.btn-pastel-outline {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.btn-pastel-outline:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent-mint);
+}
